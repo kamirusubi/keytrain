@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap');
+@keyframes caretBlink {
+    0% {
+        background-color: rgb(190, 190, 190);
+    }
+    80% {
+        background-color: rgb(43, 43, 43);
+    }
+
+}
+* {
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+
+html {
+    font-size: 19px;
+    font-family: "Noto Sans";
+}
+body {
+    display: grid;
+    grid-template-columns: 1fr 1000px 1fr;
+    background-color: rgb(32, 32, 32);
+    color: rgb(116, 116, 116);
+}
+#wrapper {
+    height: 100%;
+    grid-column: 2;
+    display: flex;
+    flex-direction: column;
+    padding-top: 20vh;
+    box-sizing: border-box;
+}
+#info_conteiner {
+    color: rgb(190, 190, 190);
+    margin-bottom: 1rem;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+}
+#textContainer {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+#caret {
+    position: absolute;
+    transition: all 20ms linear 0ms;
+    width: 2px;
+    height: 1rem;
+    animation: caretBlink 400ms ease-in 0ms infinite;
+    display: none;
+}
+#textGenerator_conteiner {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    width: 100%;
+    margin-top: 35vh;
+}
+#textGenerator {
+    transition: all 150ms linear 20ms;
+    padding: 0.74rem 1.25rem;
+    font-family: "Noto sans";
+    font-size: 1rem;
+    border: none;
+    border-radius: 100rem;
+    background-color: rgb(17, 17, 17);
+    color: rgb(190, 190, 190);
+    border: 4px solid transparent;
+    outline: 2px solid transparent;
+    background-clip: padding-box;
+}
+#textGenerator:hover {
+    color: rgb(60, 118, 206);
+    outline: 2px solid rgb(60, 118, 206);
+}
+
+.wrong {
+    color:rgb(206, 60, 60);
+}
+
+.correct {
+    color:rgb(60, 118, 206);
+}
+
+.letter {
+    transition: all 70ms ease-in 0ms;
+}
