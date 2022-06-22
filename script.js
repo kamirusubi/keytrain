@@ -28,8 +28,8 @@ let getRowText =  async () => {
     let res = await req.json();
     prepareText(res);
     console.log(res.text);
-}
 
+}
 //Подготовка текста
 let prepareText = (res) => {
     allTries = 0;
@@ -41,7 +41,7 @@ let prepareText = (res) => {
         w.split("").forEach(l => {
             let lt = letter.cloneNode();
             switch(l){
-                case '\u8212':
+                case '—':
                     lt.textContent = '-'
                     break;
                 case 'ё':
@@ -71,29 +71,37 @@ class LetterEvents {
 
     //Проверка клавиши
     static colorNextLetter(key){
-        let e = this.conteiner.children[this.currentWord].children;
+        let content = this.conteiner.children[this.currentWord].children;
         if("qwertyuiopasdfghjklzxcvbnm,.=.?/!:;'\"йцукенгёшщзхъфывапролджэячсмитьбю".includes(key.toLowerCase())){
-            if(key === e[this.currentLetter].textContent){
-                e[this.currentLetter].classList.add("correct");
-                currentLetter = e[this.currentLetter];
-                caret.style.left = currentLetter.getBoundingClientRect().left + currentLetter.offsetWidth + "px";
-                caret.style.top = currentLetter.getBoundingClientRect().top + 3 + "px";
-                this.currentLetter += 1;
+            if(key === content[this.currentLetter].textContent){
+                content[this.currentLetter].classList.add("correct");
+                currentLetter = content[this.currentLetter];
+                this.currentLetter++;
                 currectTries++;
-                allTries++;
+                this.caretMove(currentLetter, true);
             } else {
-                e[this.currentLetter].classList.add("wrong");
-                allTries++;
+                content[this.currentLetter].classList.add("wrong");
             }
-        } else if((key === " ") && (this.currentLetter === e.length)){
+        } else if((key === " ") && (this.currentLetter === content.length)){
             this.currentLetter = 0;
-            this.currentWord += 1;
-            currectTries++;
-            allTries++;
+            this.currentWord++;
+            currectTries++;            
+            this.caretMove(currentLetter, false);
+        }
+        allTries++;
+    }
+    
+    //Двидение курсора
+    static caretMove(letter, condition){
+        if (condition){
+            caret.style.left = letter.getBoundingClientRect().left + letter.offsetWidth + "px";
+            caret.style.top = currentLetter.getBoundingClientRect().top + 3 + "px";
+        }
+        else{
             caret.style.left = currentLetter.getBoundingClientRect().left + currentLetter.offsetWidth + 6 + "px";
         }
     }
-    
+
     //Рассчет скорости и точности 
     static accuracySpeed(){
         speed.textContent = Math.floor((currectTries * 1000 * 60) / (Date.now() - startTime))
