@@ -17,22 +17,25 @@ let allTries;
 let currectTries;
 let t;
 
-//Скрипт генерации текста
-let generateText = async () => {    
-    allTries = 0;
-    currectTries = 0;
-    textContainer.textContent = ""
+//Получение ссылки на текст
+let getRowText =  async () => {
     let url = "https://fish-text.ru/get";
     let req = await fetch(url, {
         type: "sentence",
         number: 4,
         format: "JSON"
     })
-
     let res = await req.json();
-    console.log(res.text)
+    prepareText(res);
+    console.log(res.text);
+}
 
-    //Деление текста на буквы
+//Подготовка текста
+let prepareText = (res) => {
+    allTries = 0;
+    currectTries = 0;
+    textContainer.textContent = ""    
+
     let text = res.text.split(" ").map(w => {
         let wt = word.cloneNode();
         w.split("").forEach(l => {
@@ -52,7 +55,6 @@ let generateText = async () => {
         });
         textContainer.append(wt)
     });
-
     LetterEvents.currentWord = 0;
     LetterEvents.currentLetter = 0;
     currentLetter = textContainer.children[0].children[0];
@@ -61,8 +63,6 @@ let generateText = async () => {
     caret.style.top = currentLetter.getBoundingClientRect().top + 3 + "px";
     timeStarted = false;
 }
-
-
 
 class LetterEvents {
     static currentWord = 0;
@@ -93,6 +93,7 @@ class LetterEvents {
             caret.style.left = currentLetter.getBoundingClientRect().left + currentLetter.offsetWidth + 6 + "px";
         }
     }
+    
     //Рассчет скорости и точности 
     static accuracySpeed(){
         speed.textContent = Math.floor((currectTries * 1000 * 60) / (Date.now() - startTime))
@@ -101,11 +102,11 @@ class LetterEvents {
 }
 
 //Генерация текста и начало скрипта
-generateText();
+getRowText();
 
 //Генерация текста по нажатию крнопки
 textGenerator.addEventListener("click", () => {
-    generateText(); 
+    getRowText(); 
 });
 
 // Нажатие клавиши
